@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sopor.nu - Municipality",
+        "description": "Enter the municipality code (kommunkod) for your area. For example, 1380 for Kungsbacka.",
+        "data": {
+          "municipality_code": "Municipality code (kommunkod)"
+        }
+      },
+      "station": {
+        "title": "Sopor.nu - Select Station",
+        "description": "Select the recycling station you want to monitor.",
+        "data": {
+          "station_id": "Recycling station"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect to the Sopor.nu API.",
+      "no_stations": "No recycling stations found for this municipality code."
+    },
+    "abort": {
+      "already_configured": "This station is already configured.",
+      "station_not_found": "The selected station could not be found."
+    }
+  }
+}

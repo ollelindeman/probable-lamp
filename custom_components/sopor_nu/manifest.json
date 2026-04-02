@@ -1,0 +1,10 @@
+{
+  "domain": "sopor_nu",
+  "name": "Sopor.nu",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/ollelindeman/probable-lamp",
+  "iot_class": "cloud_polling",
+  "requirements": ["aiohttp>=3.8.0"],
+  "version": "1.0.0"
+}
