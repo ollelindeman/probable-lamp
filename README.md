@@ -35,6 +35,17 @@ Each sensor's **state** is the next scheduled action date (device class `timesta
 
 ## Installation
 
+### HACS (recommended)
+
+1. Open HACS in your Home Assistant instance.
+2. Go to **Integrations** > **Custom repositories** (three-dot menu in the top right).
+3. Add this repository URL: `https://github.com/ollelindeman/probable-lamp`
+4. Select category **Integration** and click **Add**.
+5. Search for **Sopor.nu** in HACS and click **Download**.
+6. Restart Home Assistant.
+
+### Manual
+
 1. Copy the `custom_components/sopor_nu` folder into your Home Assistant `custom_components` directory:
 
    ```
