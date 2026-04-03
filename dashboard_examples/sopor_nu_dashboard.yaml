@@ -1,0 +1,176 @@
+# Sopor.nu — Example Dashboard Configurations
+#
+# Three different dashboard designs for displaying recycling bin status.
+# Each design shows all available bins at the configured station and when
+# they were last emptied (the sensor state).
+#
+# HOW TO FIND YOUR ENTITY IDs:
+#   In Home Assistant, go to Developer Tools → States and search for your
+#   station name. Entity IDs follow the pattern:
+#     sensor.{station_name}_{bin_type}
+#   Example: sensor.lidl_taby_paper_packaging
+#
+# REPLACE "lidl_taby" below with your own station's device name slug.
+#   You can find it in Settings → Devices & Services → sopor_nu → your station.
+#
+# NOTE: Not all 10 bin types are present at every station. Only include
+#   entities that exist for your station (check Developer Tools → States).
+#
+# The 10 possible bin types:
+#   paper_packaging, plastic_packaging, metal_packaging,
+#   clear_glass_packaging, colored_glass_packaging, newspapers,
+#   batteries, textiles, cleaning, snow_removal
+
+---
+# ==============================================================================
+# DESIGN 1 — Entities List
+# A clean vertical list showing each bin type and its last-emptied timestamp.
+# Simple and information-dense. Best for embedding in an existing dashboard tab.
+# ==============================================================================
+
+title: Recycling Station — Lidl Täby
+views:
+  - title: Design 1 — Entities List
+    path: sopor-nu-list
+    cards:
+      - type: entities
+        title: Recycling Station — Lidl Täby
+        show_header_toggle: false
+        entities:
+          - entity: sensor.lidl_taby_paper_packaging
+          - entity: sensor.lidl_taby_plastic_packaging
+          - entity: sensor.lidl_taby_metal_packaging
+          - entity: sensor.lidl_taby_clear_glass_packaging
+          - entity: sensor.lidl_taby_colored_glass_packaging
+          - entity: sensor.lidl_taby_newspapers
+          - entity: sensor.lidl_taby_batteries
+          - entity: sensor.lidl_taby_textiles
+          - entity: sensor.lidl_taby_cleaning
+          - entity: sensor.lidl_taby_snow_removal
+
+---
+# ==============================================================================
+# DESIGN 2 — Glance Card
+# A compact icon grid (5 columns × 2 rows) showing all bins at a glance.
+# Each tile shows the bin icon, a short name, and the last-emptied date.
+# Great for a quick overview — especially on mobile.
+# ==============================================================================
+
+title: Recycling Station — Lidl Täby
+views:
+  - title: Design 2 — Glance Card
+    path: sopor-nu-glance
+    cards:
+      - type: glance
+        title: Recycling Station — Lidl Täby
+        show_state: true
+        columns: 5
+        entities:
+          - entity: sensor.lidl_taby_paper_packaging
+            name: Paper
+          - entity: sensor.lidl_taby_plastic_packaging
+            name: Plastic
+          - entity: sensor.lidl_taby_metal_packaging
+            name: Metal
+          - entity: sensor.lidl_taby_clear_glass_packaging
+            name: Clear glass
+          - entity: sensor.lidl_taby_colored_glass_packaging
+            name: Colored glass
+          - entity: sensor.lidl_taby_newspapers
+            name: Newspapers
+          - entity: sensor.lidl_taby_batteries
+            name: Batteries
+          - entity: sensor.lidl_taby_textiles
+            name: Textiles
+          - entity: sensor.lidl_taby_cleaning
+            name: Cleaning
+          - entity: sensor.lidl_taby_snow_removal
+            name: Snow removal
+
+---
+# ==============================================================================
+# DESIGN 3 — Tile Grid (requires Home Assistant 2023.3 or newer)
+# A modern 2-column grid of tile cards. Each tile shows the bin icon, name,
+# last-emptied state, and the next scheduled pickup date as secondary info.
+# Topped with a header linking to the station's page on sopor.nu.
+#
+# Replace the configuration_url below with your station's actual URL.
+# You can find it in Settings → Devices & Services → sopor_nu → your station
+# → "Visit" link (format: https://www.sopor.nu/haer-aatervinner-du/hitta-aatervinningen/?avs=XXXXX&kommun=YYYY)
+# ==============================================================================
+
+title: Recycling Station — Lidl Täby
+views:
+  - title: Design 3 — Tile Grid
+    path: sopor-nu-tiles
+    cards:
+      - type: markdown
+        content: >
+          ## Recycling Station — Lidl Täby
+
+          Manufacturer: Avfall Sverige &nbsp;|&nbsp;
+          [View on sopor.nu](https://www.sopor.nu/haer-aatervinner-du/hitta-aatervinningen/?avs=REPLACE_STATION_ID&kommun=REPLACE_MUNICIPALITY_CODE)
+
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: sensor.lidl_taby_paper_packaging
+            icon: mdi:package-variant
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_paper_packaging', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_plastic_packaging
+            icon: mdi:bottle-soda-outline
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_plastic_packaging', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_metal_packaging
+            icon: mdi:food-fork-drink
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_metal_packaging', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_clear_glass_packaging
+            icon: mdi:bottle-wine-outline
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_clear_glass_packaging', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_colored_glass_packaging
+            icon: mdi:bottle-wine
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_colored_glass_packaging', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_newspapers
+            icon: mdi:newspaper
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_newspapers', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_batteries
+            icon: mdi:battery
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_batteries', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_textiles
+            icon: mdi:tshirt-crew
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_textiles', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_cleaning
+            icon: mdi:broom
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_cleaning', 'next_action') | default('Unknown') }}
+
+          - type: tile
+            entity: sensor.lidl_taby_snow_removal
+            icon: mdi:snowflake
+            secondary_info: |-
+              Next: {{ state_attr('sensor.lidl_taby_snow_removal', 'next_action') | default('Unknown') }}
