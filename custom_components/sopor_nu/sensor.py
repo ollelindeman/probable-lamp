@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 import logging
 from typing import Any
 
@@ -53,7 +53,7 @@ class SoporNuServiceSensor(
     """Sensor for a recycling station service (trash type)."""
 
     _attr_has_entity_name = True
-    _attr_device_class = SensorDeviceClass.TIMESTAMP
+    _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(
         self,
@@ -87,7 +87,7 @@ class SoporNuServiceSensor(
         )
 
     @property
-    def native_value(self) -> datetime | None:
+    def native_value(self) -> date | None:
         """Return the last action date as the sensor state."""
         service = self.coordinator.data.get("services", {}).get(
             self._service_type
@@ -97,7 +97,7 @@ class SoporNuServiceSensor(
 
         last_action = service.get("lastAction")
         if last_action:
-            return datetime.fromisoformat(last_action)
+            return datetime.fromisoformat(last_action).date()
         return None
 
     @property
@@ -113,11 +113,11 @@ class SoporNuServiceSensor(
 
         last_action = service.get("lastAction")
         if last_action:
-            attrs["last_action"] = last_action
+            attrs["last_action"] = datetime.fromisoformat(last_action).date().isoformat()
 
         next_action = service.get("nextAction")
         if next_action:
-            attrs["next_action"] = next_action
+            attrs["next_action"] = datetime.fromisoformat(next_action).date().isoformat()
 
         last_alt = service.get("lastActionAltText", "")
         if last_alt:
