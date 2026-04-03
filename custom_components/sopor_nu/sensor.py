@@ -88,16 +88,16 @@ class SoporNuServiceSensor(
 
     @property
     def native_value(self) -> datetime | None:
-        """Return the next action date as the sensor state."""
+        """Return the last action date as the sensor state."""
         service = self.coordinator.data.get("services", {}).get(
             self._service_type
         )
         if not service:
             return None
 
-        next_action = service.get("nextAction")
-        if next_action:
-            return datetime.fromisoformat(next_action)
+        last_action = service.get("lastAction")
+        if last_action:
+            return datetime.fromisoformat(last_action)
         return None
 
     @property
