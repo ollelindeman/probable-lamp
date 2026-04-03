@@ -53,7 +53,7 @@ class SoporNuServiceSensor(
     """Sensor for a recycling station service (trash type)."""
 
     _attr_has_entity_name = True
-    _attr_device_class = SensorDeviceClass.DATE
+    _attr_device_class = SensorDeviceClass.TIMESTAMP
 
     def __init__(
         self,
@@ -87,8 +87,8 @@ class SoporNuServiceSensor(
         )
 
     @property
-    def native_value(self) -> date | None:
-        """Return the last action date as the sensor state."""
+    def native_value(self) -> datetime | None:
+        """Return the last action timestamp as the sensor state."""
         service = self.coordinator.data.get("services", {}).get(
             self._service_type
         )
@@ -97,7 +97,7 @@ class SoporNuServiceSensor(
 
         last_action = service.get("lastAction")
         if last_action:
-            return datetime.fromisoformat(last_action).date()
+            return datetime.fromisoformat(last_action)
         return None
 
     @property
@@ -113,7 +113,7 @@ class SoporNuServiceSensor(
 
         last_action = service.get("lastAction")
         if last_action:
-            attrs["last_action"] = datetime.fromisoformat(last_action).date().isoformat()
+            attrs["last_action"] = last_action
 
         next_action = service.get("nextAction")
         if next_action:
